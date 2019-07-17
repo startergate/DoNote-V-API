@@ -4,11 +4,18 @@
   "description": "DoNote V",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "dev": "nodemon --watch src/ src/index.js",
+    "start": "node src"
   },
-  "author": "",
+  "author": "STARTERGATE <32726809+startergate@users.noreply.github.com>",
   "license": "ISC",
   "dependencies": {
-    "koa": "^2.7.0"
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0"
+  },
+  "repository": "https://github.com/startergate/DoNote-V.git",
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-plugin-react": "^7.14.2"
   }
 }
