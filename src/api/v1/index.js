@@ -7,6 +7,6 @@ router.get('/:sessid/:noteid', apiCtrl.get);
 
 router.post('/:sessid/:noteid', apiCtrl.post);
 router.put('/:sessid/:noteid', apiCtrl.put);
-router.delete('/:sessid/:noteid', apiCtrl.delete)
+router.delete('/:sessid/:noteid', apiCtrl.delete);
 
 module.exports = router;
