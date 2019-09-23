@@ -4,18 +4,24 @@
   "description": "DoNote V",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch src/ src/index.js",
-    "start": "node src"
+    "dev": "cross-env NODE_PATH=./src nodemon --watch src/ src/index.js",
+    "start": "cross-env NODE_PATH=./src pm2 start src"
   },
   "author": "STARTERGATE <32726809+startergate@users.noreply.github.com>",
   "license": "ISC",
   "dependencies": {
+    "@startergate/sidjs": "^0.0.7",
+    "cross-env": "^5.2.1",
     "koa": "^2.7.0",
-    "koa-router": "^7.4.0"
+    "koa-router": "^7.4.0",
+    "md5": "^2.2.1",
+    "pm2": "^3.5.1",
+    "sequelize": "^5.15.0"
   },
   "repository": "https://github.com/startergate/DoNote-V.git",
   "devDependencies": {
     "eslint": "^6.0.1",
-    "eslint-plugin-react": "^7.14.2"
+    "eslint-plugin-react": "^7.14.2",
+    "nodemon": "^1.19.2"
   }
 }
