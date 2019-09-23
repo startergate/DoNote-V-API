@@ -7,16 +7,16 @@ const sharedMetadata = require('models').sharedmetadata;
 
 const universals = require('modules/universalModules');
 
-exports.sidAuthMiddleware = (req, res, next) => {
-    sid.loginAuth(req.headers.sid_clientid, req.headers.sid_sessid).then(info => {
+exports.sidAuthMiddleware = (ctx, next) => {
+    sid.loginAuth(ctx.headers.sid_clientid, ctx.headers.sid_sessid).then(info => {
         if (info.is_vaild && info.is_succeed) {
-            res.status(401);
-            res.send({
+            ctx.status = 401;
+            ctx.body = {
                 type: 'error',
 
                 is_valid: true,
                 is_succeed: false
-            });
+            };
             return;
         }
         note.tableName = `notedb_${info.pid}`;
@@ -25,134 +25,134 @@ exports.sidAuthMiddleware = (req, res, next) => {
         next();
     }).catch(err => {
         console.error(err);
-        res.sendStatus(400);
+        ctx.status = 400;
     });
 };
 
-exports.findNote = (req, res, next) => {
-    note.findByPk(req.params.id, {attributes: ['name', 'text', 'edittime', 'id', 'category']}).then(note => {
-        res.send({
+exports.findNote = ctx => {
+    note.findByPk(ctx.params.id, {attributes: ['name', 'text', 'edittime', 'id', 'category']}).then(note => {
+        ctx.body = {
             type: 'data',
 
             is_valid: true,
             data: note
-        });
+        };
     }).catch(err => {
         console.error(err);
-        res.sendStatus(202);
+        ctx.status = 202;
     });
 };
 
-exports.updateNote = (req, res, next) => {
+exports.updateNote = ctx => {
     let updateQuery;
-    if (req.body.name || req.body.text) updateQuery = {
-        name: req.body.name,
-        text: req.body.text,
+    if (ctx.request.body.name || ctx.request.body.text) updateQuery = {
+        name: ctx.request.body.name,
+        text: ctx.request.body.text,
         edittime: new Date(Date.now()).toISOString().replace('T', ' ').split('Z').join('')
     };
     else {
-        res.send({
+        ctx.body = {
             type: 'error',
 
             is_valid: true,
             is_succeed: false,
             is_modified: false
-        });
+        };
     }
     note.update(updateQuery, {
-        where: {id: req.params.id}
+        where: {id: ctx.params.id}
     }).then(result => {
-        res.send({
+        ctx.body = {
             type: 'data',
 
             is_valid: true,
             is_succeed: true,
             is_modified: true
-        });
+        };
     }).catch(err => {
         console.error(err);
-        res.sendStatus(500);
+        ctx.status = 500;
     });
 };
 
-exports.createNote = (req, res, next) => {
+exports.createNote = ctx => {
     let createQuery;
-    if (req.body.name || req.body.text) createQuery = {
-        name: req.body.name,
-        text: req.body.text,
+    if (ctx.request.body.name || ctx.request.body.text) createQuery = {
+        name: ctx.request.body.name,
+        text: ctx.request.body.text,
         edittime: new Date(Date.now()).toISOString().replace('T', ' ').split('Z').join('')
     };
     else {
-        res.send({
+        ctx.body = {
             type: 'error',
 
             is_valid: true,
             is_succeed: false,
             is_created: false
-        });
+        };
     }
-    createQuery.id = md5(req.body.name + universals.randomString(10));
+    createQuery.id = md5(ctx.request.body.name + universals.randomString(10));
     note.create(createQuery).then(result => {
-        res.send({
+        ctx.body = {
             type: 'data',
 
             is_valid: true,
             is_succeed: true,
             is_created: true
-        });
+        };
     }).catch(err => {
         console.error(err);
-        res.sendStatus(500);
+        ctx.status = 500;
     });
 };
 
-exports.findAllNote = (req, res, next) => {
+exports.findAllNote = ctx => {
     note.findAll({ attributes: ['name', 'id', 'category'] }).then(notes => {
-        res.send({
+        ctx.body = {
             type: 'data',
 
             is_valid: true,
             data: notes
-        });
+        };
     }).catch(err => {
         console.error(err);
-        res.sendStatus(202);
+        ctx.body = 202;
     });
 };
 
-exports.findCategorizedNote = (req, res, next) => {
-    note.findAll({ where: { category: req.params.id }, attributes: ['name', 'id', 'category'] }).then(notes => {
-        res.send({
+exports.findCategorizedNote = ctx => {
+    note.findAll({ where: { category: ctx.params.id }, attributes: ['name', 'id', 'category'] }).then(notes => {
+        ctx.body = {
             type: 'data',
 
             is_valid: true,
             data: notes
-        });
+        };
     }).catch(err => {
-        console.error(err)
-        res.sendStatus(202);
+        console.error(err);
+        ctx.status = 202;
     });
 };
 
-exports.findCategory = (req, res, next) => {
+exports.findCategory = ctx => {
     metadata.findAll({ where: { datatype: "CATEGORY" }, attributes: [ 'metadata', 'metaid' ] })
         .then(categories => {
-            res.send({
+            ctx.body = {
                 type: 'data',
 
                 is_valid: true,
                 data: categories
-            });
+            };
         }).catch(err => {
-        console.error(err);
-        res.statusCode = 520;
-        res.send({
-            type: 'data',
+            console.error(err);
+            ctx.status = 520;
+            ctx.body = {
+                type: 'data',
 
-            is_valid: true,
-            is_succeed: false
+                is_valid: true,
+                is_succeed: false
+            };
         });
-    });
 };
 
 exports.createCategory = (req, res, next) => {
