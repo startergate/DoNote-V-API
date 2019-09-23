@@ -89,3 +89,4 @@ typings/
 
 package-lock.json
 yarn.lock
+src/modules/dbInfo.js
