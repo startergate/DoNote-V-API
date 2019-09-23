@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cb18f091-d155-47d1-9d00-dd83a3ee0740" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/v1/api.v1.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/v1/api.v1.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,7 +34,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="12.8.0" />
-    <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Nyan-ID" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -81,7 +81,7 @@
       <workItem from="1565048889552" duration="5000" />
       <workItem from="1565281183637" duration="670000" />
       <workItem from="1565337714278" duration="171000" />
-      <workItem from="1569191060959" duration="7773000" />
+      <workItem from="1569191060959" duration="9907000" />
     </task>
     <servers />
   </component>
