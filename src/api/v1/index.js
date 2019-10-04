@@ -1,12 +1,14 @@
 const Router = require('koa-router');
-const apiCtrl = require('./api.v1.controller');
+const apiV1Ctrl = require('./api.v1.controller');
 
 const router = new Router();
 
-router.get('/:sessid/:noteid', apiCtrl.get);
+router.use(apiV1Ctrl.sidAuthMiddleware);
 
-router.post('/:sessid/:noteid', apiCtrl.post);
-router.put('/:sessid/:noteid', apiCtrl.put);
-router.delete('/:sessid/:noteid', apiCtrl.delete);
+router.get('/note', apiV1Ctrl.findAllNote);
+router.post('/note', apiV1Ctrl.createNote);
+router.get('/note/:noteid', apiV1Ctrl.findNote);
+router.put('/note/:noteid', apiV1Ctrl.updateNote);
+router.delete('/note/:noteid', apiV1Ctrl.deleteNote);
 
 module.exports = router;

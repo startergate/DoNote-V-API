@@ -7,8 +7,8 @@ const sharedMetadata = require('models').sharedmetadata;
 
 const universals = require('modules/universalModules');
 
-exports.sidAuthMiddleware = (ctx, next) => {
-    sid.loginAuth(ctx.headers.sid_clientid, ctx.headers.sid_sessid).then(info => {
+exports.sidAuthMiddleware = async (ctx, next) => {
+    await sid.loginAuth(ctx.headers.sid_clientid, ctx.headers.sid_sessid).then(async info => {
         if (info.is_vaild && info.is_succeed) {
             ctx.status = 401;
             ctx.body = {
@@ -22,44 +22,53 @@ exports.sidAuthMiddleware = (ctx, next) => {
         note.tableName = `notedb_${info.pid}`;
         metadata.tableName = `metadb_${info.pid}`;
         sharedMetadata.tableName = `sharedb_${info.pid}`;
-        next();
+        await next();
     }).catch(err => {
         console.error(err);
         ctx.status = 400;
     });
 };
 
-exports.findNote = ctx => {
-    note.findByPk(ctx.params.id, {attributes: ['name', 'text', 'edittime', 'id', 'category']}).then(note => {
-        ctx.body = {
-            type: 'data',
+exports.findNote = async ctx => {
+    console.log(ctx.params.noteid);
+    let notes = await note.findByPk(ctx.params.noteid, {attributes: ['name', 'text', 'edittime', 'id', 'category']});
+    ctx.body = {
+        type: 'data',
 
-            is_valid: true,
-            data: note
-        };
-    }).catch(err => {
-        console.error(err);
-        ctx.status = 202;
-    });
+        is_valid: !!notes,
+        data: notes
+    };
 };
 
-exports.updateNote = ctx => {
+exports.updateNote = async ctx => {
     let updateQuery;
     if (ctx.request.body.name || ctx.request.body.text) updateQuery = {
         name: ctx.request.body.name,
         text: ctx.request.body.text,
         edittime: new Date(Date.now()).toISOString().replace('T', ' ').split('Z').join('')
     };
-    else {
-        ctx.body = {
-            type: 'error',
+    else ctx.body = {
+        type: 'error',
 
-            is_valid: true,
-            is_succeed: false,
-            is_modified: false
-        };
-    }
-    note.update(updateQuery, {
+        is_valid: true,
+        is_succeed: false,
+        is_modified: false
+    };
+    let result = await note.update(updateQuery, {
+        where: {id: ctx.params.noteid}
+    })
+
+    ctx.body = {
+        type: 'data',
+
+        is_valid: true,
+        is_succeed: !!result[0],
+        is_modified: true
+    };
+};
+
+exports.deleteNote = ctx => {
+    note.delete({
         where: {id: ctx.params.id}
     }).then(result => {
         ctx.body = {
@@ -106,18 +115,19 @@ exports.createNote = ctx => {
     });
 };
 
-exports.findAllNote = ctx => {
-    note.findAll({ attributes: ['name', 'id', 'category'] }).then(notes => {
-        ctx.body = {
-            type: 'data',
-
-            is_valid: true,
-            data: notes
-        };
-    }).catch(err => {
+exports.findAllNote = async ctx => {
+    let notes = await note.findAll({ attributes: ['name', 'id', 'category'] }).catch(err => {
         console.error(err);
         ctx.body = 202;
     });
+
+    ctx.body = {
+        type: 'data',
+
+        is_valid: true,
+        data: notes
+    };
+    ctx.status = 200;
 };
 
 exports.findCategorizedNote = ctx => {
