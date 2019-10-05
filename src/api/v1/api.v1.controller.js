@@ -30,7 +30,6 @@ exports.sidAuthMiddleware = async (ctx, next) => {
 };
 
 exports.findNote = async ctx => {
-    console.log(ctx.params.noteid);
     let notes = await note.findByPk(ctx.params.noteid, {attributes: ['name', 'text', 'edittime', 'id', 'category']});
     ctx.body = {
         type: 'data',
@@ -56,7 +55,7 @@ exports.updateNote = async ctx => {
     };
     let result = await note.update(updateQuery, {
         where: {id: ctx.params.noteid}
-    })
+    });
 
     ctx.body = {
         type: 'data',
@@ -67,21 +66,24 @@ exports.updateNote = async ctx => {
     };
 };
 
-exports.deleteNote = ctx => {
-    note.delete({
-        where: {id: ctx.params.id}
-    }).then(result => {
-        ctx.body = {
-            type: 'data',
-
-            is_valid: true,
-            is_succeed: true,
-            is_modified: true
-        };
+exports.deleteNote = async ctx => {
+    let result = await note.destroy({
+        where: {id: ctx.params.noteid}
     }).catch(err => {
         console.error(err);
         ctx.status = 500;
+
+        return new Promise((resolve, reject) => {
+            resolve(0);
+        })
     });
+
+    ctx.body = {
+        type: 'data',
+
+        is_valid: true,
+        is_succeed: !!result
+    };
 };
 
 exports.createNote = ctx => {
