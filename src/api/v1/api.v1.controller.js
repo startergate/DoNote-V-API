@@ -86,9 +86,10 @@ exports.deleteNote = async ctx => {
     };
 };
 
-exports.createNote = ctx => {
+exports.createNote = async ctx => {
     let createQuery;
     if (ctx.request.body.name && ctx.request.body.text) createQuery = {
+        id: md5(ctx.request.body.name + universals.randomString(10)),
         name: ctx.request.body.name,
         text: ctx.request.body.text,
         edittime: new Date(Date.now()).toISOString().replace('T', ' ').split('Z').join('')
@@ -101,20 +102,19 @@ exports.createNote = ctx => {
             is_succeed: false,
             is_created: false
         };
+        return;
     }
-    createQuery.id = md5(ctx.request.body.name + universals.randomString(10));
-    note.create(createQuery).then(result => {
-        ctx.body = {
-            type: 'data',
-
-            is_valid: true,
-            is_succeed: true,
-            is_created: true
-        };
-    }).catch(err => {
+    let result = await note.create(createQuery).catch(err => {
         console.error(err);
         ctx.status = 500;
     });
+
+    ctx.body = {
+        type: 'data',
+
+        is_valid: true,
+        is_succeed: !!result
+    };
 };
 
 exports.findAllNote = async ctx => {
