@@ -14,6 +14,7 @@ const sequelize = new Sequelize('donote_beta', config.id, config.pw, {
   dialect: "mysql"
 });
 
+exports.sequelize = sequelize;
 exports.metadata = MetaData(sequelize, Sequelize);
 exports.metaindex = MetaIndex(sequelize, Sequelize);
 exports.note = Note(sequelize, Sequelize);
