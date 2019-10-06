@@ -88,7 +88,7 @@ exports.deleteNote = async ctx => {
 
 exports.createNote = ctx => {
     let createQuery;
-    if (ctx.request.body.name || ctx.request.body.text) createQuery = {
+    if (ctx.request.body.name && ctx.request.body.text) createQuery = {
         name: ctx.request.body.name,
         text: ctx.request.body.text,
         edittime: new Date(Date.now()).toISOString().replace('T', ' ').split('Z').join('')
