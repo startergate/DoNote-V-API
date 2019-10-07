@@ -99,8 +99,7 @@ exports.createNote = async ctx => {
             type: 'error',
 
             is_valid: true,
-            is_succeed: false,
-            is_created: false
+            is_succeed: false
         };
         return;
     }
@@ -167,25 +166,28 @@ exports.findCategory = ctx => {
         });
 };
 
-exports.createCategory = (req, res, next) => {
-    metadata.create({datatype: "CATEGORY", metadata: req.body.name, metaid: md5(req.body.name + universals.randomString(10))}).then(user => {
-        res.send({
-            type: 'data',
+exports.createCategory = async ctx => {
+    let result = await metadata.create({
+            datatype: "CATEGORY",
+            metadata: req.body.name,
+            metaid: md5(req.body.name + universals.randomString(10))
+        }).catch(err => {
+            console.error(err);
+            ctx.status = 500;
+            ctx.body = {
+                type: 'data',
 
-            is_valid: true,
-            is_succeed: true,
-            is_created: true
-        });
-    }).catch(err => {
-        console.error(err);
-        res.statusCode = 500;
-        res.send({
-            type: 'data',
-
-            is_valid: true,
-            is_succeed: false
-        });
+                is_valid: true,
+                is_succeed: false
+            };
     });
+
+    ctx.body = {
+        type: 'data',
+
+        is_valid: true,
+        is_succeed: !!result
+    };
 };
 
 exports.findSharedNote = (req, res, next) => {
