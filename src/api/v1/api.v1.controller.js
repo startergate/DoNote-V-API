@@ -190,32 +190,35 @@ exports.createCategory = async ctx => {
     };
 };
 
-exports.findSharedNote = (req, res, next) => {
+exports.findSharedNote = async ctx => {
     let currentNoteDBName = note.tableName;
     let output = [];
 
-    sharedMetadata.findAll().then(smd => {
-        let procedureCounter = 0;
-        smd.forEach(async data => {
-            procedureCounter++;
-            let noteData = data.shareTable.split('_');
-            note.tableName = `notedb_${noteData[0]}`;
-            if (note.tableName !== currentNoteDBName) {
-                await note.findByPk(noteData[1], {attributes: ['name']}).then(note => {
-                    output.push({shareID: data.shareID, isEditable: !!+data.shareEdit, name: note.name});
-                    console.log(output);
-                }).catch(err => {
-                    console.error(err);
-                });
-            }
-            if (procedureCounter === smd.length) {
-                res.send({
-                    type: "data",
+    await sharedMetadata.findAll().then(async smd => {
+        return new Promise(((resolve, reject) => {
+            let procedureCounter = 0;
+            smd.forEach(async data => {
+                procedureCounter++;
+                let noteData = data.shareTable.split('_');
+                note.tableName = `notedb_${noteData[0]}`;
+                if (note.tableName !== currentNoteDBName) {
+                    await note.findByPk(noteData[1], {attributes: ['name']}).then(note => {
+                        output.push({shareID: data.shareID, isEditable: !!+data.shareEdit, name: note.name});
+                        console.log(output);
+                    }).catch(err => {
+                        console.error(err);
+                    });
+                }
+                if (procedureCounter === smd.length) {
+                    ctx.body = {
+                        type: "data",
 
-                    is_valid: true,
-                    data: output
-                });
-            }
-        });
+                        is_valid: true,
+                        data: output
+                    };
+                    resolve(true);
+                }
+            });
+        }))
     });
 };
