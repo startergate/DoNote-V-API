@@ -5,6 +5,10 @@ const router = new Router();
 
 router.use(apiV1Ctrl.sidAuthMiddleware);
 
+router.get('/category', apiV1Ctrl.findCategory)
+router.post('/category', apiV1Ctrl.createCategory);
+router.get('/category/:cateid', apiV1Ctrl.findCategorizedNote);
+
 router.get('/note', apiV1Ctrl.findAllNote);
 router.post('/note', apiV1Ctrl.createNote);
 router.get('/note/:noteid', apiV1Ctrl.findNote);
