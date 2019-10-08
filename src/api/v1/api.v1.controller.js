@@ -168,18 +168,22 @@ exports.findCategory = ctx => {
 
 exports.createCategory = async ctx => {
     let result = await metadata.create({
-            datatype: "CATEGORY",
-            metadata: req.body.name,
-            metaid: md5(req.body.name + universals.randomString(10))
-        }).catch(err => {
-            console.error(err);
-            ctx.status = 500;
-            ctx.body = {
-                type: 'data',
 
-                is_valid: true,
-                is_succeed: false
-            };
+        datatype: "CATEGORY",
+        metadata: ctx.request.body.name,
+        metaid: md5(ctx.request.body.name + universals.randomString(10))
+    }).catch(err => {
+        console.error(err);
+        ctx.status = 500;
+        ctx.body = {
+            type: 'data',
+
+            is_valid: true,
+            is_succeed: false
+        };
+        return new Promise((resolve, reject) => {
+            resolve(false);
+        })
     });
 
     ctx.body = {
@@ -195,7 +199,7 @@ exports.findSharedNote = async ctx => {
     let output = [];
 
     await sharedMetadata.findAll().then(async smd => {
-        return new Promise(((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             let procedureCounter = 0;
             smd.forEach(async data => {
                 procedureCounter++;
@@ -219,6 +223,6 @@ exports.findSharedNote = async ctx => {
                     resolve(true);
                 }
             });
-        }))
+        });
     });
 };
