@@ -131,30 +131,22 @@ exports.findAllNote = async ctx => {
     ctx.status = 200;
 };
 
-exports.findCategorizedNote = ctx => {
-    note.findAll({ where: { category: ctx.params.id }, attributes: ['name', 'id', 'category'] }).then(notes => {
-        ctx.body = {
-            type: 'data',
-
-            is_valid: true,
-            data: notes
-        };
-    }).catch(err => {
+exports.findCategorizedNote = async ctx => {
+    let notes = await note.findAll({ where: { category: ctx.params.id }, attributes: ['name', 'id', 'category'] }).catch(err => {
         console.error(err);
         ctx.status = 202;
     });
+    ctx.body = {
+        type: 'data',
+
+        is_valid: true,
+        data: notes
+    };
 };
 
-exports.findCategory = ctx => {
-    metadata.findAll({ where: { datatype: "CATEGORY" }, attributes: [ 'metadata', 'metaid' ] })
-        .then(categories => {
-            ctx.body = {
-                type: 'data',
-
-                is_valid: true,
-                data: categories
-            };
-        }).catch(err => {
+exports.findCategory = async ctx => {
+    let categories = await metadata.findAll({ where: { datatype: "CATEGORY" }, attributes: [ 'metadata', 'metaid' ] })
+        .catch(err => {
             console.error(err);
             ctx.status = 520;
             ctx.body = {
@@ -164,11 +156,16 @@ exports.findCategory = ctx => {
                 is_succeed: false
             };
         });
+    ctx.body = {
+        type: 'data',
+
+        is_valid: true,
+        data: categories
+    };
 };
 
 exports.createCategory = async ctx => {
     let result = await metadata.create({
-
         datatype: "CATEGORY",
         metadata: ctx.request.body.name,
         metaid: md5(ctx.request.body.name + universals.randomString(10))

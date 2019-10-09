@@ -5,7 +5,7 @@ const router = new Router();
 
 router.use(apiV1Ctrl.sidAuthMiddleware);
 
-router.get('/category', apiV1Ctrl.findCategory)
+router.get('/category', apiV1Ctrl.findCategory);
 router.post('/category', apiV1Ctrl.createCategory);
 router.get('/category/:cateid', apiV1Ctrl.findCategorizedNote);
 
