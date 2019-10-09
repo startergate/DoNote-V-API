@@ -132,7 +132,7 @@ exports.findAllNote = async ctx => {
 };
 
 exports.findCategorizedNote = async ctx => {
-    let notes = await note.findAll({ where: { category: ctx.params.id }, attributes: ['name', 'id', 'category'] }).catch(err => {
+    let notes = await note.findAll({ where: { category: ctx.params.cateid }, attributes: ['name', 'id', 'category'] }).catch(err => {
         console.error(err);
         ctx.status = 202;
     });
