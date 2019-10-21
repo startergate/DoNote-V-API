@@ -24,7 +24,7 @@ exports.sidAuthMiddleware = async (ctx, next) => {
         sharedMetadata.tableName = `sharedb_${info.pid}`;
         await next();
     }).catch(err => {
-        console.error(err);
+        console.error(err.response.status + ' ' + err.response.data.error);
         ctx.status = 400;
     });
 };
