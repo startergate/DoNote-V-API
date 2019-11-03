@@ -34,8 +34,8 @@
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="javascript.nodejs.core.library.configured.version" value="12.8.0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../DoNote-V" />
+    <property name="javascript.nodejs.core.library.configured.version" value="13.0.1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -100,6 +100,7 @@
       <workItem from="1571448003902" duration="599000" />
       <workItem from="1571535930537" duration="1104000" />
       <workItem from="1571613776536" duration="599000" />
+      <workItem from="1572605656207" duration="53000" />
     </task>
     <servers />
   </component>
