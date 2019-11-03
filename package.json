@@ -1,6 +1,6 @@
 {
   "name": "donote-v-api",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "DoNote V API",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "md5": "^2.2.1",
     "mysql2": "^1.7.0",
     "pm2": "^3.5.1",
-    "sequelize": "^5.15.0"
+    "sequelize": "^5.21.2"
   },
   "repository": "https://github.com/startergate/DoNote-V-API.git",
   "devDependencies": {
