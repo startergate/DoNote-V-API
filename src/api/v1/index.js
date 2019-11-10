@@ -1,9 +1,10 @@
 const Router = require('koa-router');
 const apiV1Ctrl = require('./api.v1.controller');
+const dmw = require("modules/donoteMiddleware");
 
 const router = new Router();
 
-router.use(apiV1Ctrl.sidAuthMiddleware);
+router.use(dmw.sidAuthMiddleware);
 
 router.get('/category', apiV1Ctrl.findCategory);
 router.post('/category', apiV1Ctrl.createCategory);
