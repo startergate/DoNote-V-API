@@ -6,4 +6,6 @@ const router = new Router();
 
 router.use(dmw.sidAuthMiddleware);
 
+// GraphQL
+
 module.exports = router;
