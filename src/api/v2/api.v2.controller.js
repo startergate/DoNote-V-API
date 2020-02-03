@@ -1,3 +1,3 @@
 exports.graphqlEndpoint = (ctx) => {
-    ctx.body = {}
+  ctx.body = {};
 };

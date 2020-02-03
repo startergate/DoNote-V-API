@@ -13,17 +13,17 @@ app.use(bodyParser());
 router.use('/api', apiRouter.routes());
 
 router.get('/', ctx => {
-    ctx.status = 400;
+  ctx.status = 400;
 });
 
 router.all('*', ctx => {
-    //
-    ctx.status = 400;
+  //
+  ctx.status = 400;
 });
 
 app.use(router.routes());
 app.use(router.allowedMethods());
 
 app.listen(port, () => {
-    console.log(port);
+  console.log(port);
 });
