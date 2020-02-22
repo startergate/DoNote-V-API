@@ -4,7 +4,6 @@ const dmw = require("modules/donoteMiddleware");
 
 const router = new Router();
 
-router.use(dmw.sidAuthMiddleware);
 router.get('/catch', authCtrl.loginFlow);
 
 module.exports = router;
