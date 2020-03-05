@@ -1,3 +1,4 @@
+const joi = require('joi');
 const md5 = require('md5');
 
 const note = require('models').note;
