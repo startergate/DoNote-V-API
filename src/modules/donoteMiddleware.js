@@ -1,8 +1,6 @@
 const sid = require('@startergate/sidjs');
 
-const note = require('models').note;
-const metadata = require('models').metadata;
-const sharedMetadata = require('models').sharedmetadata;
+const { note, metaData, sharedMetaData } = require('models');
 
 exports.sidAuthMiddleware = async (ctx, next) => {
   await sid.loginAuth(ctx.headers.sid_clientid, ctx.headers.sid_sessid).then(async info => {
@@ -17,8 +15,8 @@ exports.sidAuthMiddleware = async (ctx, next) => {
       return;
     }
     note.tableName = `notedb_${info.pid}`;
-    metadata.tableName = `metadb_${info.pid}`;
-    sharedMetadata.tableName = `sharedb_${info.pid}`;
+    metaData.tableName = `metadb_${info.pid}`;
+    sharedMetaData.tableName = `sharedb_${info.pid}`;
     await next();
   }).catch(err => {
     console.error(err.response.status + ' ' + err.response.data.error);

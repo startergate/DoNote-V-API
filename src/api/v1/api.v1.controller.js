@@ -1,9 +1,7 @@
 const joi = require('joi');
 const md5 = require('md5');
 
-const note = require('models').note;
-const metadata = require('models').metadata;
-const sharedMetadata = require('models').sharedmetadata;
+const { note, metaData, sharedMetaData } = require('models');
 
 const universals = require('modules/universalModules');
 
@@ -123,7 +121,7 @@ exports.findCategorizedNote = async ctx => {
 };
 
 exports.findCategory = async ctx => {
-  let categories = await metadata.findAll({ where: { datatype: "CATEGORY" }, attributes: [ 'metadata', 'metaid' ] })
+  let categories = await metaData.findAll({ where: { datatype: "CATEGORY" }, attributes: [ 'metadata', 'metaid' ] })
     .catch(err => {
       console.error(err);
       ctx.status = 520;
@@ -143,7 +141,7 @@ exports.findCategory = async ctx => {
 };
 
 exports.createCategory = async ctx => {
-  let result = await metadata.create({
+  let result = await metaData.create({
     datatype: "CATEGORY",
     metadata: ctx.request.body.name,
     metaid: md5(ctx.request.body.name + universals.randomString(10))
@@ -173,7 +171,7 @@ exports.findSharedNote = async ctx => {
   let currentNoteDBName = note.tableName;
   let output = [];
 
-  await sharedMetadata.findAll().then(async smd => {
+  await sharedMetaData.findAll().then(async smd => {
     return new Promise((resolve, reject) => {
       let procedureCounter = 0;
       smd.forEach(async data => {

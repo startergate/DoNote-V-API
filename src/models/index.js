@@ -14,11 +14,12 @@ const sequelize = new Sequelize('donote_beta', config.id, config.pw, {
   dialect: "mysql"
 });
 
-exports.sequelize = sequelize;
-exports.metadata = MetaData(sequelize, Sequelize);
-exports.metaindex = MetaIndex(sequelize, Sequelize);
-exports.note = Note(sequelize, Sequelize);
-exports.sharedmetadata = SharedMetaData(sequelize, Sequelize);
-exports.sharedmetaindex = SharedMetaIndex(sequelize, Sequelize);
-exports.user = User(sequelize, Sequelize);
+const metaData = MetaData(sequelize, Sequelize);
+const metaIndex = MetaIndex(sequelize, Sequelize);
+const note = Note(sequelize, Sequelize);
+const sharedMetaData = SharedMetaData(sequelize, Sequelize);
+const sharedMetaIndex = SharedMetaIndex(sequelize, Sequelize);
+const user = User(sequelize, Sequelize);
+
+module.exports= { sequelize, metaData, metaIndex, note, sharedMetaData, sharedMetaIndex, user};
 
