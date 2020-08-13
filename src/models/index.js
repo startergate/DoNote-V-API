@@ -1,10 +1,8 @@
-const Sequelize = require('sequelize');
+const { Sequelize } = require('sequelize');
 
-const MetaData = require('./Meta').MetaData;
-const MetaIndex = require('./Meta').MetaIndex;
+const { MetaData, MetaIndex } = require('./Meta');
 const Note = require('./Note');
-const SharedMetaData = require('./Shared').SharedMetaData;
-const SharedMetaIndex = require('./Shared').SharedMetaIndex;
+const { SharedMetaData, SharedMetaIndex } = require('./Shared');
 const User = require('./User');
 
 const config = require('modules/dbInfo');
@@ -14,12 +12,12 @@ const sequelize = new Sequelize('donote_beta', config.id, config.pw, {
   dialect: "mysql"
 });
 
-const metaData = MetaData(sequelize, Sequelize);
-const metaIndex = MetaIndex(sequelize, Sequelize);
+const metaData = MetaData(sequelize);
+const metaIndex = MetaIndex(sequelize);
 const note = Note(sequelize, Sequelize);
-const sharedMetaData = SharedMetaData(sequelize, Sequelize);
-const sharedMetaIndex = SharedMetaIndex(sequelize, Sequelize);
-const user = User(sequelize, Sequelize);
+const sharedMetaData = SharedMetaData(sequelize);
+const sharedMetaIndex = SharedMetaIndex(sequelize);
+const user = User(sequelize);
 
 module.exports= { sequelize, metaData, metaIndex, note, sharedMetaData, sharedMetaIndex, user};
 

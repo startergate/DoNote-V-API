@@ -1,4 +1,6 @@
-exports.SharedMetaIndex = (sequelize, DataTypes) => {
+const { DataTypes } = require('sequelize');
+
+exports.SharedMetaIndex = (sequelize) => {
   return sequelize.define("SharedMetaIndex", {
     note: {
       type: DataTypes.STRING(65),
@@ -18,7 +20,7 @@ exports.SharedMetaIndex = (sequelize, DataTypes) => {
   });
 };
 
-exports.SharedMetaData = (sequelize, DataTypes) => {
+exports.SharedMetaData = (sequelize) => {
   return sequelize.define("SharedMetaData", {
     shareTable: {
       type: DataTypes.STRING(65),

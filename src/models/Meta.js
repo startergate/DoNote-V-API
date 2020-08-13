@@ -1,4 +1,6 @@
-exports.MetaIndex = (sequelize, DataTypes) => {
+const { DataTypes } = require('sequelize');
+
+exports.MetaIndex = (sequelize) => {
   return sequelize.define("MetaIndex", {
     metaid: {
       type: DataTypes.CHAR(32),
@@ -13,7 +15,7 @@ exports.MetaIndex = (sequelize, DataTypes) => {
   });
 };
 
-exports.MetaData = (sequelize, DataTypes) => {
+exports.MetaData = (sequelize) => {
   return sequelize.define("MetaData", {
     datatype: {
       type: DataTypes.STRING(8),

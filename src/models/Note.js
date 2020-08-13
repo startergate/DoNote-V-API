@@ -1,4 +1,6 @@
-module.exports = (sequelize, DataTypes) => {
+const { DataTypes } = require('sequelize');
+
+module.exports = (sequelize) => {
   return sequelize.define('Note', {
     name: {
       type: DataTypes.STRING,
@@ -12,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     id: {
-      type: DataTypes.TEXT("long"),
+      type: DataTypes.TEXT('long'),
       primaryKey: true
     },
     align: {
-      type: DataTypes.NUMBER(11),
+      type: DataTypes.INTEGER,
       unique: "compositeIndex",
       autoIncrement: true
     },
