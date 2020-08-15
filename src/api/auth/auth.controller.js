@@ -1,9 +1,9 @@
 const { user, note } = require('models');
 
-exports.loginFlow = ctx => {
+exports.loginFlow = async ctx => {
   const pid = ctx.request.query.pid;
   
-  user.findOrCreate({
+  await user.findOrCreate({
     where: {
       pid: pid
     },
