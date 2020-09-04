@@ -19,5 +19,5 @@ const sharedMetaData = SharedMetaData(sequelize);
 const sharedMetaIndex = SharedMetaIndex(sequelize);
 const user = User(sequelize);
 
-module.exports= { sequelize, metaData, metaIndex, note, sharedMetaData, sharedMetaIndex, user};
+module.exports = { sequelize, metaData, metaIndex, note, sharedMetaData, sharedMetaIndex, user};
 

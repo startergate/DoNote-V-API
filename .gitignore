@@ -175,4 +175,4 @@ modules.xml
 
 package-lock.json
 yarn.lock
-src/modules/dbInfo.js
+src/modules/dbInfo.ts
