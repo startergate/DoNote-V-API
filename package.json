@@ -4,14 +4,22 @@
   "description": "DoNote V API",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_PATH=./src nodemon --watch src/ src/index.js",
-    "start": "cross-env NODE_PATH=./src pm2 start src"
+    "start": "yarn build || yarn fast-start",
+    "fast-start": "cross-env NODE_ENV=deploy NODE_PATH=./dist node dist/deploy.js",
+    "style-test": "standardx \"src/**/*.ts\" && tsc",
+    "test": "yarn style-test",
+    "pretty": "prettier --write \"src/**/*.ts\"",
+    "clear": "rimraf dist",
+    "build": "tsc",
+    "docker-build": "docker-compose build && docker-compose up -d",
+    "dev": "cross-env NODE_PATH=./src NODE_ENV=develop nodemon --watch 'src/**/*' -e ts,tsx --exec ts-node ./src/deploy.ts"
   },
   "author": "STARTERGATE <32726809+startergate@users.noreply.github.com>",
   "license": "ISC",
   "dependencies": {
-    "@startergate/sidjs": "^0.0.7",
+    "@startergate/sidts": "^0.0.7",
     "cross-env": "^7.0.1",
+    "dotenv": "^8.2.0",
     "graphql": "^15.0.0",
     "joi": "^17.2.1",
     "koa": "^2.7.0",
@@ -19,13 +27,40 @@
     "koa-router": "^9.0.1",
     "md5": "^2.2.1",
     "mysql2": "^2.0.1",
-    "pm2": "^4.1.2",
     "sequelize": "^6.2.3"
   },
   "repository": "https://github.com/startergate/DoNote-V-API.git",
   "devDependencies": {
+    "@types/koa": "^2.0.51",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-router": "^7.0.42",
+    "@types/md5": "^2.2.0",
+    "@types/node": "^13.9.0",
+    "@types/sequelize": "^4.28.8",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
     "eslint": "^7.0.0",
     "eslint-plugin-react": "^7.14.2",
-    "nodemon": "^2.0.1"
+    "nodemon": "^2.0.1",
+    "prettier": "^2.1.1",
+    "standardx": "^5.0.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.2"
+  },
+  "standardx": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2020
+    },
+    "ignore": [
+      "src/modules/**/*",
+      "src/tests/**/*"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "plugin:@typescript-eslint/recommended"
+    ]
   }
 }

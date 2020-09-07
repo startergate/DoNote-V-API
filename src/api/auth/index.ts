@@ -1,8 +1,8 @@
-const Router = require('koa-router');
-const authCtrl = require('auth.controller');
+import * as Router from "koa-router";
+import { loginFlow } from "./auth.controller";
 
 const router = new Router();
 
-router.get('/catch', authCtrl.loginFlow);
+router.get("/catch", loginFlow);
 
-module.exports = router;
+export default router;

@@ -1,23 +1,33 @@
-const { Sequelize } = require('sequelize');
+import { Sequelize } from "sequelize";
 
-const { MetaData, MetaIndex } = require('./Meta');
-const Note = require('./Note');
-const { SharedMetaData, SharedMetaIndex } = require('./Shared');
-const User = require('./User');
+import { MetaData, MetaIndex } from "./Meta";
+import { Note } from "./Note";
+import { SharedMetaData, SharedMetaIndex } from "./Shared";
+import { User } from "./User";
 
-const config = require('modules/dbInfo');
-
-const sequelize = new Sequelize('donote_beta', config.id, config.pw, {
-  host: config.host,
-  dialect: "mysql"
-});
+const sequelize = new Sequelize(
+  "donote_beta",
+  process.env.DB_ID,
+  process.env.DB_PW,
+  {
+    host: process.env.DB_HOST,
+    dialect: "mysql",
+  }
+);
 
 const metaData = MetaData(sequelize);
 const metaIndex = MetaIndex(sequelize);
-const note = Note(sequelize, Sequelize);
+const note = Note(sequelize);
 const sharedMetaData = SharedMetaData(sequelize);
 const sharedMetaIndex = SharedMetaIndex(sequelize);
 const user = User(sequelize);
 
-module.exports = { sequelize, metaData, metaIndex, note, sharedMetaData, sharedMetaIndex, user};
-
+export {
+  sequelize,
+  metaData,
+  metaIndex,
+  note,
+  sharedMetaData,
+  sharedMetaIndex,
+  user,
+};

@@ -1,12 +1,14 @@
-const Router = require('koa-router');
-const apiV2Ctrl = require('./api.v2.controller');
-const dmw = require("modules/donoteMiddleware");
+import * as Router from "koa-router";
+
+import { graphqlEndpoint } from "./api.v2.controller";
+
+import { sidAuthMiddleware } from "../../modules/donoteMiddleware";
 
 const router = new Router();
 
-router.use(dmw.sidAuthMiddleware);
+router.use(sidAuthMiddleware);
 
 // GraphQL
-router.all('/graphql', apiV2Ctrl.graphqlEndpoint);
+router.all("/graphql", graphqlEndpoint);
 
-module.exports = router;
+export default router;

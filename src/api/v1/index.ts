@@ -1,20 +1,31 @@
-const Router = require('koa-router');
-const apiV1Ctrl = require('./api.v1.controller');
-const { sidAuthMiddleware } = require("modules/donoteMiddleware");
+import * as Router from "koa-router";
+
+import {
+  findCategory,
+  createCategory,
+  findCategorizedNote,
+  findAllNote,
+  createNote,
+  findSharedNote,
+  findNote,
+  updateNote,
+  deleteNote,
+} from "./api.v1.controller";
+import { sidAuthMiddleware } from "../../modules/donoteMiddleware";
 
 const router = new Router();
 
 router.use(sidAuthMiddleware);
 
-router.get('/category', apiV1Ctrl.findCategory);
-router.post('/category', apiV1Ctrl.createCategory);
-router.get('/category/:cateid', apiV1Ctrl.findCategorizedNote);
+router.get("/category", findCategory);
+router.post("/category", createCategory);
+router.get("/category/:cateid", findCategorizedNote);
 
-router.get('/note', apiV1Ctrl.findAllNote);
-router.post('/note', apiV1Ctrl.createNote);
-router.get('/note/shared', apiV1Ctrl.findSharedNote);
-router.get('/note/:noteid', apiV1Ctrl.findNote);
-router.put('/note/:noteid', apiV1Ctrl.updateNote);
-router.delete('/note/:noteid', apiV1Ctrl.deleteNote);
+router.get("/note", findAllNote);
+router.post("/note", createNote);
+router.get("/note/shared", findSharedNote);
+router.get("/note/:noteid", findNote);
+router.put("/note/:noteid", updateNote);
+router.delete("/note/:noteid", deleteNote);
 
-module.exports = router;
+export default router;
