@@ -1,11 +1,13 @@
+import { Context, Next } from "koa";
+
 const sid = require("@startergate/sidjs");
 
 const { note, metaData, sharedMetaData } = require("models");
 
-export const sidAuthMiddleware = async (ctx, next) => {
+export const sidAuthMiddleware = async (ctx: Context, next: Next) => {
   await sid
     .loginAuth(ctx.headers.sid_clientid, ctx.headers.sid_sessid)
-    .then(async (info) => {
+    .then(async (info: any) => {
       if (info.is_valid && info.is_succeed) {
         ctx.status = 401;
         ctx.body = {
@@ -21,7 +23,7 @@ export const sidAuthMiddleware = async (ctx, next) => {
       sharedMetaData.tableName = `sharedb_${info.pid}`;
       await next();
     })
-    .catch((err) => {
+    .catch((err: any) => {
       console.error(err.response.status + " " + err.response.data.error);
       ctx.status = 400;
     });
