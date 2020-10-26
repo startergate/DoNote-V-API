@@ -1,0 +1,6 @@
+version: '3.1'
+services:
+  server:
+    container_name: "donote_v_server"
+    build: .
+    image: startergate/donote-v-api
