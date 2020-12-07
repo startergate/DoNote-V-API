@@ -1,7 +1,16 @@
-import { DataTypes } from "sequelize";
+import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize";
 
-export const MetaIndex = (sequelize) => {
-  return sequelize.define(
+interface MetaIndexAttribute extends Model {
+    readonly metaid: string;
+    readonly userid: string;
+}
+
+type MetaIndexStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): MetaIndexAttribute
+};
+
+export const MetaIndex = (sequelize: Sequelize) => {
+  return <MetaIndexStatic>sequelize.define(
     "MetaIndex",
     {
       metaid: {
@@ -19,8 +28,18 @@ export const MetaIndex = (sequelize) => {
   );
 };
 
-export const MetaData = (sequelize) => {
-  return sequelize.define(
+interface MetaDataAttribute extends Model {
+    readonly datatype: string;
+    readonly metadata: string;
+    readonly metaid: string;
+}
+
+type MetaDataStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): MetaDataAttribute
+};
+
+export const MetaData = (sequelize: Sequelize) => {
+  return <MetaDataStatic>sequelize.define(
     "MetaData",
     {
       datatype: {

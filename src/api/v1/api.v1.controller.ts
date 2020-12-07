@@ -1,10 +1,12 @@
-import md5 from "md5";
+import * as md5 from "md5";
+
+import {Context} from "koa";
 
 import { note, metaData, sharedMetaData } from "../../models";
 
 import { randomString } from "../../modules/universalModules";
 
-export const findNote = async (ctx) => {
+export const findNote = async (ctx: Context) => {
   let notes = await note.findByPk(ctx.params.noteid, {
     attributes: ["name", "text", "edittime", "id", "category"],
   });
@@ -16,7 +18,7 @@ export const findNote = async (ctx) => {
   };
 };
 
-export const updateNote = async (ctx) => {
+export const updateNote = async (ctx: Context) => {
   let updateQuery;
   if (ctx.request.body.name || ctx.request.body.text)
     updateQuery = {
@@ -49,7 +51,7 @@ export const updateNote = async (ctx) => {
   };
 };
 
-export const deleteNote = async (ctx) => {
+export const deleteNote = async (ctx: Context) => {
   let result = await note
     .destroy({
       where: { id: ctx.params.noteid },
@@ -71,7 +73,7 @@ export const deleteNote = async (ctx) => {
   };
 };
 
-export const createNote = async (ctx) => {
+export const createNote = async (ctx: Context) => {
   let createQuery;
   if (ctx.request.body.name && ctx.request.body.text)
     createQuery = {
@@ -106,7 +108,7 @@ export const createNote = async (ctx) => {
   };
 };
 
-export const findAllNote = async (ctx) => {
+export const findAllNote = async (ctx: Context) => {
   let notes = await note
     .findAll({ attributes: ["name", "id", "category"] })
     .catch((err) => {
@@ -123,7 +125,7 @@ export const findAllNote = async (ctx) => {
   ctx.status = 200;
 };
 
-export const findCategorizedNote = async (ctx) => {
+export const findCategorizedNote = async (ctx: Context) => {
   let notes = await note
     .findAll({
       where: { category: ctx.params.cateid },
@@ -141,7 +143,7 @@ export const findCategorizedNote = async (ctx) => {
   };
 };
 
-export const findCategory = async (ctx) => {
+export const findCategory = async (ctx: Context) => {
   let categories = await metaData
     .findAll({
       where: { datatype: "CATEGORY" },
@@ -165,7 +167,7 @@ export const findCategory = async (ctx) => {
   };
 };
 
-export const createCategory = async (ctx) => {
+export const createCategory = async (ctx: Context) => {
   let result = await metaData
     .create({
       datatype: "CATEGORY",
@@ -194,9 +196,9 @@ export const createCategory = async (ctx) => {
   };
 };
 
-export const findSharedNote = async (ctx) => {
+export const findSharedNote = async (ctx: Context) => {
   let currentNoteDBName = note.tableName;
-  let output = [];
+  let output: { shareID: any; isEditable: boolean; name: string; }[] = [];
 
   await sharedMetaData.findAll().then(async (smd) => {
     return new Promise((resolve, reject) => {
@@ -204,6 +206,7 @@ export const findSharedNote = async (ctx) => {
       smd.forEach(async (data) => {
         procedureCounter++;
         let noteData = data.shareTable.split("_");
+        // @ts-ignore
         note.tableName = `notedb_${noteData[0]}`;
         if (note.tableName !== currentNoteDBName) {
           await note

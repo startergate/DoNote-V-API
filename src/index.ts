@@ -1,13 +1,11 @@
-import Koa from "koa";
+import * as Koa from "koa";
 import * as Router from "koa-router";
-import bodyParser from "koa-bodyparser";
+import * as bodyParser from "koa-bodyparser";
 
 import apiRouter from "./api";
 
 const app = new Koa();
 const router = new Router();
-
-const port = process.env.PORT || 4000;
 
 app.use(bodyParser());
 

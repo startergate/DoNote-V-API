@@ -1,6 +1,8 @@
-import { user, note } from "models";
+import {Context} from "koa";
 
-export const loginFlow = async (ctx) => {
+import { user, note } from "../../models";
+
+export const loginFlow = async (ctx: Context) => {
   const pid = ctx.request.query.pid;
 
   await user.findOrCreate({
@@ -13,8 +15,9 @@ export const loginFlow = async (ctx) => {
     },
   });
 
+  // @ts-ignore
   note.tableName = `notedb_${pid}`;
-  note.sync();
+  await note.sync();
 
   ctx.redirect("/note");
 };

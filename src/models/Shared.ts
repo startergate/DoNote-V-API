@@ -1,7 +1,17 @@
-import { DataTypes } from "sequelize";
+import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize";
 
-export const SharedMetaIndex = (sequelize) => {
-  return sequelize.define(
+interface SharedMetaIndexAttribute extends Model {
+    readonly note: string;
+    readonly id: string;
+    readonly isEditable: boolean;
+}
+
+type SharedMetaIndexStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): SharedMetaIndexAttribute
+};
+
+export const SharedMetaIndex = (sequelize: Sequelize) => {
+  return <SharedMetaIndexStatic>sequelize.define(
     "SharedMetaIndex",
     {
       note: {
@@ -15,7 +25,7 @@ export const SharedMetaIndex = (sequelize) => {
         primaryKey: true,
       },
       isEditable: {
-        type: DataTypes.NUMBER(1),
+        type: DataTypes.BOOLEAN,
       },
     },
     {
@@ -24,8 +34,18 @@ export const SharedMetaIndex = (sequelize) => {
   );
 };
 
-export const SharedMetaData = (sequelize) => {
-  return sequelize.define(
+interface SharedMetaDataAttribute extends Model {
+    readonly shareTable: string;
+    readonly shareID: string;
+    readonly shareEdit: boolean;
+}
+
+type SharedMetaDataStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): SharedMetaDataAttribute
+};
+
+export const SharedMetaData = (sequelize: Sequelize) => {
+  return <SharedMetaDataStatic>sequelize.define(
     "SharedMetaData",
     {
       shareTable: {

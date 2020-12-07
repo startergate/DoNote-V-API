@@ -1,7 +1,16 @@
-import { DataTypes } from "sequelize";
+import {BuildOptions, DataTypes, Model, Sequelize} from "sequelize";
 
-export const User = (sequelize) => {
-  return sequelize.define(
+interface UserAttribute extends Model {
+    readonly pid: string;
+    readonly recentSessid: string;
+}
+
+type UserStatic = typeof Model & {
+    new (values?: object, options?: BuildOptions): UserAttribute
+};
+
+export const User = (sequelize: Sequelize) => {
+  return <UserStatic>sequelize.define(
     "User",
     {
       pid: {
