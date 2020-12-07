@@ -1,6 +1,6 @@
 import { Context, Next } from "koa";
 
-const sid = require("@startergate/sidjs");
+const sid = require("@startergate/sidts");
 
 const { note, metaData, sharedMetaData } = require("models");
 
