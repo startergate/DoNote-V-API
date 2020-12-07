@@ -15,7 +15,7 @@ router.get("/", (ctx) => {
   ctx.status = 200;
 });
 
-router.all("*", (ctx) => {
+router.all("(.*)", (ctx) => {
   ctx.status = 400;
 });
 
