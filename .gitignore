@@ -178,3 +178,4 @@ yarn.lock
 src/modules/dbInfo.ts
 
 dist/
+.DS_Store
